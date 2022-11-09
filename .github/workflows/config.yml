@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    container: anggit86/mirrorbot:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # otherwise, you will failed to push refs to dest repo
+          persist-credentials: false  # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+
+      - name: clone source
+        run: |
+          cd
+          git clone https://AnGgIt88:$GH_TOKEN@github.com/AnGgIt88/mirror-leech-telegram-bot /usr/src/app
+          cd && cd /usr/src/app
+        env:
+         GH_TOKEN: ${{secrets.GH_TOKEN}}
+
+      - name: Deploy..
+        run: |
+          cd && cd /usr/src/app
+          bash start.sh &
+          sleep 280m
