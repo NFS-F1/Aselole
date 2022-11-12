@@ -10,28 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout..
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # otherwise, you will failed to push refs to dest repo
           persist-credentials: false  # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
 
-      - name: Cleanup
+      - name: Cleanup..
         uses: rokibhasansagar/slimhub_actions@main
 
-      - name: Set Swap Space
+      - name: Set Swap Space..
         uses: pierotofy/set-swap-space@master
         with:
           swap-size-gb: 12
 
-      - name: clone source
+      - name: clone source..
         run: |
           git clone https://AnGgIt88:$GH_TOKEN@github.com/AnGgIt88/mirror-leech-telegram-bot
         env:
          GH_TOKEN: ${{secrets.GH_TOKEN}}
 
-      - name: Deploy..
+      - name: Build..
         run: |
           cd mirror-leech-telegram-bot
           sudo docker build . -t mirror-bot
           sudo docker run -p 80:80 mirror-bot
+
+      - name: push..
+        run: |
+          git clone https://NFS-F2:$GH_TOKEN@github.com/NFS-F2/Anjat
+          cd Anjat
+          git config --global user.email jarbull002@gmail.com
+          git config --global user.name NFS-F2
+          git commit --allow-empty -m "Deploy"
+          git push
+        env:
+         NFSF2_TOKEN: ${{secrets.NFSF2_TOKEN}}
