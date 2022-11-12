@@ -8,7 +8,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    container: anggit86/mirrorbot:latest
 
     steps:
       - name: Checkout
@@ -27,13 +26,12 @@ jobs:
 
       - name: clone source
         run: |
-          cd
-          git clone https://AnGgIt88:$GH_TOKEN@github.com/AnGgIt88/mirror-leech-telegram-bot /usr/src/app
-          cd && cd /usr/src/app
+          git clone https://AnGgIt88:$GH_TOKEN@github.com/AnGgIt88/mirror-leech-telegram-bot
         env:
          GH_TOKEN: ${{secrets.GH_TOKEN}}
 
       - name: Deploy..
         run: |
-          cd && cd /usr/src/app
-          bash start.sh
+          cd mirror-leech-telegram-bot
+          sudo docker build . -t mirror-bot
+          sudo docker run -p 80:80 mirror-bot
