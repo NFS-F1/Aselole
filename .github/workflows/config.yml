@@ -38,7 +38,7 @@ jobs:
 
       - name: push..
         run: |
-          git clone https://NFS-F2:$GH_TOKEN@github.com/NFS-F2/Anjat
+          git clone https://NFS-F2:$NFSF2_TOKEN@github.com/NFS-F2/Anjat
           cd Anjat
           git config --global user.email jarbull002@gmail.com
           git config --global user.name NFS-F2
